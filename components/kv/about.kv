@@ -1,0 +1,68 @@
+<AboutScreen>:
+    on_enter:
+        app.root.get_screen('nav_layout_screen').ids.toolbar.title = 'About Us'
+        app.root.get_screen('nav_layout_screen').ids.toolbar.elevation = 10
+        app.root.get_screen('nav_layout_screen').ids.toolbar.right_action_items = []
+
+
+
+    Image:
+        source: 'assets/image/logo.png'
+        size: self.size
+        pos: root.x / 2, root.height/3
+
+    MDCard:
+        elevation:10
+        orientation: 'vertical'
+        size_hint: None, None
+        size: "300dp", "250dp"
+        border_radius: [30,]
+        radius: 15
+        pos_hint: {'center_x': .5, 'center_y': .45}
+        canvas:
+            Color:
+                rgba: rgba('#232b2b')
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+
+        MDLabel:
+            text: root.intro
+            padding_x: dp(15)
+            padding_y: dp(15)
+            halign: 'center'
+            font_style: 'Button'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+
+        BoxLayout:
+            padding: [75, 20, 20, 20]
+            MDIconButton:
+                icon: 'gmail'
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                #pos_hint: {'center_x': .5}
+            MDIconButton:
+                icon: 'github'
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                #pos_hint: {'center_x': .5}
+            MDIconButton:
+                icon: 'twitter'
+                theme_text_color: 'Custom'
+                text_color: 1, 1, 1, 1
+                #pos_hint: {'center_x': .5}
+
+    FloatLayout:
+        MDLabel:
+            text: '[i]FR - Student Attendance System[/i]'
+            markup: True
+            font_style: 'Subtitle1'
+            halign: 'center'
+            pos_hint: {'center_y': .15}
+
+        MDLabel:
+            text: '2020 - 2021'
+            font_style: 'Caption'
+            halign: 'center'
+            pos_hint: {'center_y': .1}

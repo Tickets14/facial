@@ -1,0 +1,145 @@
+#:import utils kivy.utils
+
+<Background@BoxLayout>
+    canvas.before:
+        Color:
+            rgba: rgba('#88ABE3')
+        Rectangle:
+            pos: self.pos
+            size:self.size
+    canvas:
+        Color:
+            rgba: rgba('#ffffff')
+
+        RoundedRectangle:
+            pos: 0, -70
+            size: self.size
+            radius: [30, 30, 50, 40]
+
+
+<LoginScreen>:
+    usr_email: usr_email
+    usr_pass: usr_pass
+
+    Background:
+
+    FloatLayout:
+        Image:
+            source: 'assets/image/logo.png'
+            size_hint_y: None
+            height: dp(70)
+            pos_hint: {'center_x': .2, 'center_y': .75}
+
+        Widget:
+            id: separator
+            size_hint_y: None
+            height: 6
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Rectangle:
+                    pos: 0, separator.center_y
+                    size: 340, 2
+            pos_hint: {'center_x': .15, 'center_y': .65}
+
+
+        MDLabel:
+            text: '[font=assets/fonts/BebasNeue.ttf]WELCOME,[/font]'
+            markup: True
+            halign: 'center'
+            font_size: '32sp'
+            pos_hint: {'center_x':.47, 'center_y': .77}
+
+        MDLabel:
+            text: '[font=assets/fonts/ALTP-Light.otf]Sign in to access your account[/font]'
+            markup: True
+            halign: 'center'
+            font_size: '16sp'
+            pos_hint: {'center_x':.62, 'center_y': .72}
+
+        MDLabel:
+            text: 'EMAIL ID'
+            halign: 'center'
+            font_style: 'Caption'
+            pos_hint: {'center_x': .21, 'center_y': .58}
+
+        MDLabel:
+            text: 'PASSWORD'
+            halign: 'center'
+            font_style: 'Caption'
+            pos_hint: {'center_x': .23, 'center_y': .47}
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 40
+            pos_hint: {'y': .4, 'x': .15}
+
+            MDTextFieldRect:
+                id: usr_email
+                hint_text: ''
+                background_color: 1,1,1,.5
+                size_hint: .7, None
+                height: "30dp"
+                write_tab: False
+
+            MDTextFieldRect:
+                id: usr_pass
+                background_color: 1,1,1,.5
+                size_hint: .7, None
+                height: "30dp"
+                password: True
+                password_mask: '•'
+
+
+        MDFillRoundFlatButton:
+            text: '[font=assets/fonts/Roboto-Bold][color=#FFFFFF]             LOGIN             [/color][/font]'
+            markup: True
+            font_size: '20sp'
+            md_bg_color: utils.get_color_from_hex('#88ABE3')
+            pos_hint: {'center_x': .5 ,'center_y':.3}
+            on_release:
+                if root.usr_login() == True: app.show_screen('dummy'), app.show_screen('lobby'), root.reset_field()
+
+        MDTextButton:
+            text: "[color=#808080]I'm a new user.[/color] [color=#88ABE3]Sign Up[/color]"
+            font_style: 'Caption'
+            markup: True
+            pos_hint: {'center_x': .5, 'center_y': .2}
+            on_release:
+                app.root.current ='register'
+                root.reset_field()
+
+<Content5>
+
+    subject: subject
+    course_year: course_year
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "150dp"
+
+    MDTextField:
+        id: subject
+        hint_text: "Subject"
+
+    MDTextField:
+        id: course_year
+        hint_text: "Course & Year"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [100, 100, 0, 0]
+        spacing: 20
+
+
+        MDFillRoundFlatButton:
+            text: '[b]ADD[/b]'
+            markup: True
+            pos_hint: {'center_x':.8}
+            md_bg_color: utils.get_color_from_hex('#88ABE3')
+            on_release:
+                root.add_section()
+                #root.get_func.on_enter()
+                root.reset_field()
+
+

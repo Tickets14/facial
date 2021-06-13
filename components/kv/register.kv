@@ -1,0 +1,139 @@
+#:import utils kivy.utils
+
+<Background1@BoxLayout>
+    canvas.before:
+        Color:
+            rgba: rgba('#88ABE3')
+        Rectangle:
+            pos: self.pos
+            size:self.size
+    canvas:
+        Color:
+            rgba: rgba('#ffffff')
+
+        RoundedRectangle:
+            pos: 0, -70
+            size: self.size
+            radius: [30, 30, 50, 40]
+
+<RegisterScreen>
+    usr_email: usr_email
+    usr_name: usr_name
+    usr_pass1: usr_pass1
+    usr_pass2: usr_pass2
+
+    Background1:
+
+    FloatLayout:
+        Image:
+            source: 'assets/image/logo.png'
+            size_hint_y: None
+            height: dp(50)
+            pos_hint: {'center_x': .17, 'center_y': .8}
+
+        Widget:
+            id: separator
+            size_hint_y: None
+            height: 6
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Rectangle:
+                    pos: 0, separator.center_y
+                    size: 300, 2
+            pos_hint: {'center_x': .15, 'center_y': .74}
+
+
+        MDLabel:
+            text: '[font=assets/fonts/BebasNeue.ttf]CREATE YOUR ACCOUNT[/font]'
+            markup: True
+            halign: 'center'
+            font_size: '25sp'
+            pos_hint: {'center_x':.5, 'center_y': .78}
+
+        MDLabel:
+            text: '[font=assets/fonts/ALTP-Light.otf]Sign up to get started[/font]'
+            markup: True
+            halign: 'center'
+            font_size: '16sp'
+            pos_hint: {'center_x':.6, 'center_y': .71}
+###############################################################
+
+        MDLabel:
+            text: 'EMAIL ID [color=#DC143C]*[/color]'
+            markup: True
+            halign: 'center'
+            font_style: 'Caption'
+            pos_hint: {'center_x': .23, 'center_y': .635}
+
+        MDLabel:
+
+            text: 'NAME [color=#DC143C]*[/color]'
+            halign: 'center'
+            markup: True
+            font_style: 'Caption'
+            pos_hint: {'center_x': .21, 'center_y': .525}
+
+        MDLabel:
+
+            text: 'PASSWORD [color=#DC143C]*[/color]'
+            halign: 'center'
+            markup: True
+            font_style: 'Caption'
+            pos_hint: {'center_x': .25, 'center_y': .41}
+
+        MDLabel:
+            text: 'CONFIRM PASSWORD [color=#DC143C]*[/color]'
+            markup: True
+            halign: 'center'
+            font_style: 'Caption'
+            pos_hint: {'center_x': .32, 'center_y': .3}
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 40
+            pos_hint: {'y': .23, 'x': .15}
+
+            MDTextFieldRect:
+                id: usr_email
+                size_hint: .7, None
+                height: "30dp"
+
+            MDTextFieldRect:
+                id: usr_name
+                size_hint: .7, None
+                height: "30dp"
+
+            MDTextFieldRect:
+                id: usr_pass1
+                size_hint: .7, None
+                height: "30dp"
+                password: True
+
+            MDTextFieldRect:
+                id: usr_pass2
+                size_hint: .7, None
+                height: "30dp"
+                hint_text_color: 1,0,0,1
+                password: True
+
+        MDRaisedButton:
+            text: '[font=assets/fonts/Roboto-Bold][color=#FF9100]             D O N E             [/color][/font]'
+            markup: True
+            font_size: '20sp'
+            elevation: 12
+            md_bg_color: utils.get_color_from_hex('#FFFFFF')
+            pos_hint: {'center_x': .5 ,'center_y':.15}
+            on_release:
+                if root.register() == True: app.root.current = 'login'
+
+        MDTextButton:
+            text: "[color=#808080]I'm already a user.[/color] [color=#88ABE3]Sign Ip[/color]"
+            font_style: 'Caption'
+            markup: True
+            pos_hint: {'center_x': .5, 'center_y': .08}
+            on_release: app.root.current = 'login'
+
+
+

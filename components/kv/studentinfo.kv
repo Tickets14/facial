@@ -1,0 +1,118 @@
+<StudentInfoScreen>
+
+    on_pre_enter:
+        app.root.get_screen('nav_layout_screen').ids.toolbar.title = "Student's Profile"
+        app.root.get_screen('nav_layout_screen').ids.toolbar.elevation = 25
+        app.root.get_screen('nav_layout_screen').ids.toolbar.anchor_title = 'left'
+        app.root.get_screen('nav_layout_screen').ids.toolbar.right_action_items = [['trash-can-outline', lambda x: root.delete_student_dialog()]]
+        root.ids.logs.clear_widgets()
+
+    MDCard:
+        orientation: 'vertical'
+        size_hint: 1, .4
+        pos_hint: {'center_x':.5, 'center_y': .8}
+        canvas:
+            Color:
+                rgba: rgba('#ffffff')
+            Rectangle:
+                source: 'assets/image/dark.jpg'
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            canvas.after:
+                Color:
+                    rgba: rgba('#FFFFFF')
+
+                Ellipse:
+                    size: 100, 100
+                    pos: self.width * .38, self.height * 1.9
+                    source: root.image_name
+                    angle_start: 0
+                    angle_end: 360
+
+            BoxLayout:
+                orientation: 'vertical'
+                FloatLayout:
+                    MDLabel:
+                        text: app.current_student
+                        font_name: 'assets/fonts/BebasNeue.ttf'
+                        theme_text_color: 'Custom'
+                        font_style: 'Button'
+                        font_size: '15sp'
+                        text_color: 1, 1, 1, 1
+                        halign: 'center'
+                        pos_hint: {'center_y':.3}
+
+                    MDLabel:
+                        text: str(root.id_student)
+                        font_name: 'assets/fonts/BebasNeue.ttf'
+                        theme_text_color: 'Custom'
+                        font_style: 'Button'
+                        font_size: '15sp'
+                        text_color: 1, 1, 1, 1
+                        halign: 'center'
+                        pos_hint: {'center_y':.2}
+
+                    MDLabel:
+                        text: root.status
+                        bold: True
+                        font_style: "H6"
+                        theme_text_color: 'Custom'
+                        text_color: rgba('#5CFF5C') if root.status == 'Present' else [1,0,0,1] if root.status == 'Late' else rgba('#FFA500')
+                        spacing: '12sp'
+                        halign: 'right'
+                        pos_hint: {'center_x': .48,'center_y':.1}
+    MDCard:
+        elevation:0
+        orientation: 'vertical'
+        size_hint: None, None
+        size: root.width, root.height - 100
+        pos_hint: {'center_x': .5, 'center_y': .2}
+        canvas:
+            Color:
+                rgba: rgba('#FAFAFA')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        RelativeLayout:
+            ScrollView:
+                id: refresh_layout
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    id: logs
+                    adaptive_height: True
+
+            MDLabel:
+                text: 'No Records' if not logs.children else ''
+                theme_text_color: 'Custom'
+                text_color: rgba('#808080')
+                font_style: 'H4'
+                halign: 'center'
+                pos_hint: {'center_y': .8}
+
+
+
+
+
+
+
+<DateTime>
+    text: f"{root.text}"
+    markup: True
+    theme_text_color: 'Custom'
+    text_color: rgba('#2d607c')
+
+    secondary_text: root.secondary_text
+    secondary_theme_text_color: 'Custom'
+    secondary_text_color: rgba('#2d607c')
+
+
+    IconLeftImage:
+        icon: 'timeline-clock-outline'
+        theme_text_color: 'Custom'
+        text_color: rgba('#2d607c')

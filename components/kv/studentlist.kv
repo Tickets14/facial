@@ -1,0 +1,87 @@
+<CustomListItem>
+    text: root.text
+    secondary_text: root.secondary_text
+    on_release:
+        app.current_student = root.text
+        app.current_student_id = root.index
+        app.show_screen('student_info')
+
+    IconLeftImage:
+        icon: root.icon
+
+<StudentListScreen>
+    on_pre_enter: root.ids.content.clear_widgets()
+    Image:
+        source: 'assets/image/no_content.png' if not content.children else ''
+
+    MDLabel:
+        text: 'Click the        icon to add a student' if not content.children else ''
+        theme_text_color: 'Custom'
+        text_color: rgba('#808080')
+        font_style: 'Subtitle1'
+        halign: 'center'
+        pos_hint: {'center_y': .4}
+
+    FloatLayout:
+        MDIcon:
+            icon: 'account-plus-outline' if not content.children else ''
+            theme_text_color: 'Custom'
+            text_color: rgba('#808080')
+            pos_hint: {'center_x': .85, 'center_y': .4}
+    BoxLayout:
+        orientation: 'vertical'
+
+
+        MDScrollViewRefreshLayout:
+            id: refresh_layout
+            refresh_callback: root.refresh_callback
+            root_layout: root
+
+            MDBoxLayout:
+                id: content
+                orientation: 'vertical'
+                adaptive_height: True
+
+
+    FloatLayout:
+        MDFloatingActionButton:
+            icon: "camera-iris"
+            elevation: 15
+            elevation_normal: 12
+            md_bg_color: rgba('#88ABE3')
+            pos_hint: {'center_x': .5, 'center_y': .1}
+            on_release: root.attendance()
+
+
+<DialogContent>
+    student_name: student_name
+    student_id: student_id
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "150dp"
+
+    MDTextField:
+        id: student_name
+        hint_text: "Student name"
+
+    MDTextField:
+        id: student_id
+        hint_text: "Student ID"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [100, 100, 0, 0]
+        spacing: 20
+
+        MDFillRoundFlatButton:
+            text: '[b]ADD[/b]'
+            markup: True
+            pos_hint: {'center_x':.8}
+            md_bg_color: utils.get_color_from_hex('#88ABE3')
+            on_release:
+                root.camera_add_student()
+                root.get_func.on_enter()
+                root.reset_field()
+
+

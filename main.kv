@@ -1,0 +1,193 @@
+
+ScreenManager:
+    id: sm
+    SplashScreen:
+        name: 'splash'
+    LoginScreen:
+        id: login
+        name: 'login'
+
+    RegisterScreen:
+        name: 'register'
+
+    NavLayoutScreen:
+        id: nav_layout_screen
+        name: 'nav_layout_screen'
+
+
+<NavLayoutScreen@Screen>:
+    MDNavigationLayout
+        id: navigation_layout
+
+        ScreenManager:
+
+            Screen:
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    MDToolbar:
+                        id: toolbar
+                        title: 'Class & Section'
+                        elevation: 20
+                        md_bg_color: rgba('#88ABE3')
+                        left_action_items: [['menu', lambda x: nav_drawer.set_state() ]]
+
+                    ScreenManager:
+                        id: sm
+                        LoginScreen:
+                            id: login
+                            name: 'login'
+
+                        LobbyScreen:
+                            id: lobby
+                            name: 'lobby'
+
+                        StudentListScreen:
+                            name: 'studentlist'
+
+                        ProfileScreen:
+                            name: 'profile'
+
+                        DummyScreen:
+                            name: 'dummy'
+
+                        StudentInfoScreen:
+                            name: 'student_info'
+
+                        AboutScreen:
+                            name: 'about'
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                sm: sm
+                nav_drawer: nav_drawer
+
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+
+    canvas:
+        Color:
+            rgba: rgba('#ffffff')
+        Rectangle:
+            source: 'assets/image/md.jpg'
+            pos: self.x, self.height * .8
+            size: root.width, root.height / 3
+
+    AnchorLayout:
+        anchor_x: "left"
+        size_hint_y: None
+        height: avatar.height
+
+        Image:
+            id: avatar
+            size_hint: None, None
+            size: "56dp", "56dp"
+            keep_ratio: True
+            source: "assets/image/Simon.png"
+
+    MDLabel:
+        text: app.current_prof
+        font_style: "Button"
+        halign: 'left'
+        bold: True
+        size_hint_y: None
+        height: self.texture_size[1]
+        theme_text_color: 'Custom'
+        text_color: rgba('#101917')
+
+    MDLabel:
+        text: app.current_prof_email
+        bold: True
+        font_style: "Body2"
+        halign: 'left'
+        size_hint_y: None
+        height: self.texture_size[1]
+        theme_text_color: 'Custom'
+        text_color: rgba('#101917')
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: "8dp"
+        spacing: '8dp'
+
+        ScrollView:
+
+            MDList:
+
+                OneLineIconListItem:
+                    divider: None
+                    text: 'Lobby'
+                    theme_text_color: 'Custom'
+                    text_color: rgba('#2d607c')
+                    on_release:
+                        root.sm.current = "lobby"
+                        root.nav_drawer.set_state("close")
+
+                    IconLeftWidget:
+                        icon: 'home'
+                        theme_text_color: 'Custom'
+                        text_color: rgba('#2d607c')
+
+                OneLineIconListItem:
+                    divider: None
+                    text: 'Profile'
+                    theme_text_color: 'Custom'
+                    text_color: rgba('#2d607c')
+                    on_release:
+                        root.sm.current = "profile"
+                        root.nav_drawer.set_state("close")
+
+                    IconLeftWidget:
+                        icon: 'account-circle'
+                        theme_text_color: 'Custom'
+                        text_color: rgba('#2d607c')
+
+                OneLineIconListItem:
+                    divider: None
+                    text: 'Rate Us'
+                    theme_text_color: 'Custom'
+                    text_color: rgba('#2d607c')
+                    on_release:
+                        root.soon()
+                        root.nav_drawer.set_state("close")
+
+                    IconLeftWidget:
+                        icon: 'star-plus'
+                        theme_text_color: 'Custom'
+                        text_color: rgba('#2d607c')
+
+                OneLineIconListItem:
+                    divider: None
+                    text: 'About Us'
+                    theme_text_color: 'Custom'
+                    text_color: rgba('#2d607c')
+
+                    on_release:
+                        root.sm.current = "about"
+                        root.nav_drawer.set_state("close")
+
+                    IconLeftWidget:
+                        icon: 'tag-multiple'
+                        theme_text_color: 'Custom'
+                        text_color: rgba('#2d607c')
+
+                OneLineIconListItem:
+                    divider: None
+                    text: 'Log out'
+                    theme_text_color: 'Custom'
+                    text_color: rgba('#2d607c')
+                    on_release:
+
+                        app.root.current = 'login'
+                        root.nav_drawer.set_state("close")
+
+                    IconLeftWidget:
+                        icon: 'logout'
+                        theme_text_color: 'Custom'
+                        text_color: rgba('#2d607c')

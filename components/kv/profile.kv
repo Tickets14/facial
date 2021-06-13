@@ -1,0 +1,106 @@
+<ProfileScreen>
+    on_pre_enter:
+        app.root.get_screen('nav_layout_screen').ids.toolbar.title = 'Profile'
+        app.root.get_screen('nav_layout_screen').ids.toolbar.elevation = 20
+        app.root.get_screen('nav_layout_screen').ids.toolbar.right_action_items = []
+
+        root.ids.content.clear_widgets()
+
+
+    MDCard:
+        elevation: 30
+        orientation: 'vertical'
+        size_hint: 1, .4
+        pos_hint: {'center_x':.5, 'center_y': .8}
+
+        canvas:
+            Color:
+                rgba: rgba('#ffffff')
+            Rectangle:
+                source: 'assets/image/bg_profile.jpg'
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            orientation: 'vertical'
+            FloatLayout:
+                Image:
+                    source: 'assets/image/Simon.png'
+                    size_hint: None, None
+                    size: "76dp", "76dp"
+                    pos_hint: {'center_x': .5, 'center_y': .2}
+
+        BoxLayout:
+            FloatLayout:
+                MDLabel:
+                    text: app.current_prof
+                    theme_text_color: 'Custom'
+                    font_style: 'Button'
+                    font_size: '15sp'
+                    text_color: 1,1,1,1
+
+                    halign: 'center'
+                    pos_hint: {'center_y':.5}
+
+                MDLabel:
+                    text: app.current_prof_email
+                    font_style: "Body2"
+                    bold: True
+                    font_size: '15sp'
+                    theme_text_color: 'Custom'
+                    text_color: 1,1,1,1
+                    halign: 'center'
+                    pos_hint: {'center_y':.1}
+        BoxLayout:
+            orientation: 'vertical'
+
+
+    MDCard:
+        elevation: 0
+        orientation: 'vertical'
+
+        pos_hint: {'center_x': .5, 'center_y': .2}
+        size: root.width, root.height / 2
+
+        canvas:
+            Color:
+                rgba: rgba('#FAFAFA')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        RelativeLayout:
+            MDLabel:
+                text: 'No Records' if not content.children else ''
+                theme_text_color: 'Custom'
+                text_color: rgba('#808080')
+                font_style: 'H4'
+                halign: 'center'
+                pos_hint: {'center_y': .8}
+
+            ScrollView:
+                id: refresh_layout
+
+                MDGridLayout:
+                    id: content
+                    adaptive_height: True
+                    cols: 2
+
+<SectionCourse>
+    text: root.text
+    secondary_text: root.secondary_text
+    divider: None
+    IconLeftIcon:
+        icon: root.icon
+        theme_text_color: 'Custom'
+        text_color: rgba('#2d607c')
+
+<Header1@MDBoxLayout>
+    canvas:
+        Color:
+            rgba: rgba('#88ABE3')
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+

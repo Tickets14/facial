@@ -1,0 +1,13 @@
+- Add edit button to name
+
+- Update student name and student id
+
+
+- Fix excel file
+- Fix about us
+
+- Add Time log per student in database
+
+
+
+

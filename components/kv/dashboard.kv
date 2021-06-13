@@ -1,0 +1,300 @@
+#:import utils kivy.utils
+#:import Snackbar kivymd.uix.snackbar.Snackbar
+<LobbyScreen>
+
+    on_pre_enter:
+        root.ids.content.clear_widgets()
+        app.root.get_screen('nav_layout_screen').ids.toolbar.title = 'Class & Section'
+        app.root.get_screen('nav_layout_screen').ids.toolbar.elevation = 10
+        app.root.get_screen('nav_layout_screen').ids.toolbar.right_action_items = [['plus-box-multiple-outline', lambda x: root.add_class_dialog()]]
+
+    on_leave:
+        self.ids.content.clear_widgets()
+
+    Image:
+        source: 'assets/image/no_content.png' if not content.children else ''
+
+    MDLabel:
+        text: 'Click the        icon to add section' if not content.children else ''
+        theme_text_color: 'Custom'
+        text_color: rgba('#808080')
+        font_style: 'Subtitle1'
+        halign: 'center'
+        pos_hint: {'center_y': .4}
+
+    FloatLayout:
+        MDIcon:
+            icon: 'plus-box-multiple-outline' if not content.children else ''
+            theme_text_color: 'Custom'
+            text_color: rgba('#808080')
+            pos_hint: {'center_x': .87, 'center_y': .4}
+
+    MDScrollViewRefreshLayout:
+        id: refresh_layout
+        refresh_callback: root.refresh_callback
+        root_layout: root
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            id: content
+            adaptive_height: True
+            padding: 50
+            spacing: 40
+
+
+# Header Color
+<Header>
+    orientation: 'vertical'
+    id: separator
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+
+            pos: 60, separator.center_y
+            size: 200, 2
+
+# open-in-new icon
+<Section>
+
+    elevation:10
+    orientation: 'vertical'
+    size_hint: None, None
+    size: "280dp", "180dp"
+    border_radius: [30,]
+    radius: 15
+
+    Header:
+        padding: 10
+        canvas.before:
+            Color:
+                rgba: root.color
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [15, 15,0,0]
+
+        BoxLayout:
+            MDLabel:
+                text: root.subject
+                font_name: 'assets/fonts/book.ttf'
+                font_style: 'H6'
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+            MDIconButton:
+                icon: 'pencil-outline'
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                user_font_size: "24sp"
+                on_release:
+                    app.current_update = root.index
+                    root.add_update_dialog()
+
+        BoxLayout:
+
+            MDLabel:
+                text: root.course_year
+                font_name: 'assets/fonts/book.ttf'
+                font_style: 'Subtitle1'
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+
+
+            FloatLayout:
+                MDLabel:
+                    text: f"{root.count} students"
+                    font_name: 'assets/fonts/book.ttf'
+                    font_style: 'Button'
+                    halign: 'right'
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    pos_hint: {'center_x': .5,'center_y': .1}
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            spacing: '20sp'
+            MDIconButton:
+                icon: 'trash-can-outline'
+                theme_text_color: "Custom"
+                text_color: root.color
+                on_press:
+                    app.current_delete = root.index
+                on_release:
+                    root.delete_section()
+
+            MDLabel:
+                text: ''
+
+            MDIconButton:
+                icon: 'open-in-new'
+                theme_text_color: "Custom"
+                text_color: root.color
+                on_release:
+                    app.current_button = root.index
+                    app.current_subject = root.subject
+                    app.current_course_year = root.course_year
+                    app.show_screen('studentlist')
+
+
+
+<DropDownIcon>
+    IconLeftWidget:
+        icon: root.icon
+        theme_text_color: 'Custom'
+        text_color: rgba('#2d607c')
+
+<Content>
+    subject: subject
+    course_year: course_year
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "250dp"
+    BoxLayout:
+
+    BoxLayout:
+        orientation: 'vertical'
+        MDTextField:
+            id: subject
+            hint_text: "Subject Code"
+            line_color_normal: rgba('#88ABE3')
+
+        MDTextField:
+            id: course_year
+            hint_text: "Course & Year"
+            line_color_normal: rgba('#88ABE3')
+
+    BoxLayout:
+        spacing: '30sp'
+        MDTextField:
+            id: sched
+            hint_text: "Date Start"
+            size_hint_x: None
+            line_color_normal: rgba('#88ABE3')
+            width: "100dp"
+            on_focus: if self.focus: root.menu.open()
+
+        FloatLayout:
+            MDLabel:
+                text: "-"
+                font_style: 'H2'
+                line_color_normal: rgba('#000000')
+                pos_hint: {'center_x': .3, 'center_y': .7}
+
+
+        MDTextField:
+            id: sched1
+            hint_text: "Date End"
+            size_hint_x: None
+            line_color_normal: rgba('#88ABE3')
+            width: "100dp"
+            pos_hint: {'center_x': .5}
+            on_focus: if self.focus: root.menu1.open()
+
+    BoxLayout:
+        spacing: '20sp'
+        MDIconButton:
+            icon: 'alarm'
+            theme_text_color: 'Custom'
+            text_color: rgba('#88ABE3')
+            on_release: root.show_time_picker()
+        FloatLayout:
+            MDLabel:
+                id: time
+                text: str(app.pick_time)
+                font_style: 'H6'
+                halign: 'center'
+                pos_hint: {'center_y': .6, 'center_x': .1}
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [100, 100, 0, 0]
+        spacing: 20
+
+        MDFillRoundFlatButton:
+            text: '[b]Add section[/b]'
+            markup: True
+            pos_hint: {'center_x':.8}
+            md_bg_color: utils.get_color_from_hex('#88ABE3')
+            on_release:
+                root.add_section()
+                root.reset_field()
+
+<UpdateContent>
+    new_subject: new_subject
+    new_course_year: new_course_year
+    orientation: "vertical"
+    size_hint_y: None
+    height: "250dp"
+    BoxLayout:
+
+    BoxLayout:
+        orientation: 'vertical'
+        MDTextField:
+            id: new_subject
+            hint_text: "New subject"
+            line_color_normal: rgba('#88ABE3')
+
+        MDTextField:
+            id: new_course_year
+            hint_text: "New course and year"
+            line_color_normal: rgba('#88ABE3')
+
+    BoxLayout:
+        spacing: '30sp'
+        MDTextField:
+            id: new_sched
+            hint_text: "Class Sched"
+            size_hint_x: None
+            width: "100dp"
+            line_color_normal: rgba('#88ABE3')
+            on_focus: if self.focus: root.new_menu.open()
+        FloatLayout:
+            MDLabel:
+                text: "-"
+                font_style: 'H2'
+                line_color_normal: rgba('#000000')
+                pos_hint: {'center_x': .5, 'center_y': .7}
+
+        MDTextField:
+            id: new_sched1
+            hint_text: "Class Sched"
+            size_hint_x: None
+            width: "100dp"
+            line_color_normal: rgba('#88ABE3')
+            pos_hint: {'center_x': .6}
+            on_focus: if self.focus: root.new_menu1.open()
+
+    BoxLayout:
+
+        spacing: '20sp'
+        MDIconButton:
+            icon: 'alarm'
+            user_font_size: '28sp'
+            on_release: root.update_show_time()
+
+        #FloatLayout:
+        MDLabel:
+            id: new_time
+            text: str(app.updated_time)
+            font_style: 'H6'
+            halign: 'left'
+            pos_hint: {'center_y': .45, 'center_x': .1}
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [100, 100, 0, 0]
+        spacing: 20
+
+        MDFillRoundFlatButton:
+            text: '[b]UPDATE[/b]'
+            markup: True
+            pos_hint: {'center_x':.8}
+
+            md_bg_color: utils.get_color_from_hex('#88ABE3')
+
+            on_release:
+                root.update_section()
+                root.reset_field()
